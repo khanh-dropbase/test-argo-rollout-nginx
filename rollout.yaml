@@ -1,0 +1,24 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: demo-app-2-rollout
+spec:
+  selector:
+    matchLabels:
+      app: demo-app-2
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: demo-app-2-deployment
+  strategy:
+    canary:
+      stableService: demo-app-2-service-stable
+      canaryService: demo-app-2-service-canary
+      nginx:
+        stableIngress: demo-app-2-ingress
+      steps:
+      - setWeight: 30
+      - pause: {duration: 30s}
+      - setWeight: 60
+      - pause: {duration: 30s}

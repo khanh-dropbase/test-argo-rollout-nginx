@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app-2-deployment
+spec:
+  revisionHistoryLimit: 1
+  replicas: 0
+  selector:
+    matchLabels:
+      app: demo-app-2
+  template:
+    metadata:
+      labels:
+        app: demo-app-2
+    spec:
+      containers:
+      - name: webserver-simple
+        image: kostiscodefresh/summer-of-k8s-app:v2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
